@@ -21,14 +21,12 @@
     <el-form-item label="近卖远买" required>
       <el-input
         v-model="hedgingConfig.sellBuyThresholdRate"
-        :disabled="hedgingConfig.autoSellBuyThresholdRate"
       />
       <span style="font-size: 12px;">近期卖出远期买入阀值，当套利指数超过此阀值就进行套利交易</span>
     </el-form-item>
     <el-form-item label="近买远卖" required>
       <el-input
         v-model="hedgingConfig.buySellThresholdRate"
-        :disabled="hedgingConfig.autoBuySellThresholdRate"
       />
       <span style="font-size: 12px;">近期买入远期卖出阀值，当套利指数超过此阀值就进行套利交易</span>
     </el-form-item>

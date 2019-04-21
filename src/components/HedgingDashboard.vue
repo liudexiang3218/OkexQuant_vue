@@ -35,8 +35,8 @@
         </el-col>
         <el-col :span="3">
           <hedging-data-panel
-            :coin="{title:'BTG',coin:'btg',type:''}"
-            :infos="infosBTG"
+            :coin="{title:'BCH',coin:'bch',type:''}"
+            :infos="infosBCH"
             @handleBase="handleBase"
           />
         </el-col>
@@ -62,11 +62,7 @@
 import Vue from 'vue'
 import HedgingDataPanel from './HedgingDataPanel.vue'
 require('websocket').w3cwebsocket
-if (typeof TextEncoder !== 'function') {
-  const TextEncodingPolyfill = require('text-encoding')
-  TextEncodingPolyfill.TextEncoder
-  TextEncodingPolyfill.TextDecoder
-}
+
 var StompJs = require('@stomp/stompjs')
 export default {
   name: 'HedgingDashboard',
@@ -98,7 +94,7 @@ export default {
         return [0, 0, 0, 0, 0, 0]
       }
     },
-    infosBTG: {
+    infosBCH: {
       type: Array,
       default: function() {
         return [0, 0, 0, 0, 0, 0]
@@ -119,7 +115,7 @@ export default {
   },
   data() {
     return {
-      coins: ['btc', 'ltc', 'eth', 'etc', 'btg', 'xrp', 'eos']
+      coins: ['btc', 'ltc', 'eth', 'etc', 'bch', 'xrp', 'eos']
     }
   },
   mounted() {
@@ -168,8 +164,8 @@ export default {
         infos = this.infosETH
       } else if (coin === 'etc') {
         infos = this.infosETC
-      } else if (coin === 'btg') {
-        infos = this.infosBTG
+      } else if (coin === 'bch') {
+        infos = this.infosBCH
       } else if (coin === 'xrp') {
         infos = this.infosXRP
       } else if (coin === 'eos') {

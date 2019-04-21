@@ -66,8 +66,8 @@ export default {
     return {
       backgroundImage: backgroundImage,
       user: {
-        username: '',
-        password: ''
+        username: 'admin',
+        password: '123456'
       }
     }
   },

@@ -19,9 +19,7 @@ import 'echarts/lib/component/dataZoom'
 import 'echarts/lib/component/markLine'
 import VeLine from 'v-charts/lib/line.common'
 require('websocket').w3cwebsocket
-if (typeof TextEncoder !== 'function') {
-  require('text-encoding')
-}
+
 var StompJs = require('@stomp/stompjs')
 var client
 var subscription

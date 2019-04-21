@@ -1,4 +1,4 @@
-# OkexQuant 期货合约价差套利系统
+# OkexQuant_vue 期货合约价差套利系统 前端界面项目
 
 #### 项目介绍
 本项目是在Okex平台提供的API v3基础上开发的一套数字货币期货合约套利系统，基本原理是当一个不同期的数字货币合约之间的价差产生异常比率，将进行同时开仓买入和开仓卖出交易，等待合约之间的价差回归正常比率，再进行同时的平仓卖出和平仓买入，从而产生利润。
@@ -21,9 +21,9 @@
 
 1. 下载项目 git clone https://github.com/liudexiang3218/OkexQuant_vue.git
 2. cd OkexQuant_vue
-3. npm install --registry https://registry.npm.taobao.org
+3. npm install
 4. npm run serve
-5. http://127.0.0.1:
+5. http://127.0.0.1:8080
 
 #### 使用说明
 
@@ -31,30 +31,26 @@
 2. 根据条件设置策略
 3. 开启策略开始按钮
 
-#### system.properties配置说明
+#### env配置说明
+1. .env.development 开发测试环境配置文件 .env.production 正式环境配置文件
+2.  ``VUE_APP_baseURL ``:后端api服务地址
+3.  ``VUE_APP_brokerURL ``: activeMQ服务地址
 
-1.  ``broker_url ``:activemq连接url
-2.  ``ok_websocket_url ``: okex ws连接url
-3.  ``ok_rest_url ``: okex api服务器连接
-3.  ``ok_api_key ``: 您的okex开发平台上申请的api key
-4.  ``ok_secret_key ``: 您的okex开发平台上申请的secret key
-5.  ``ok_passphrase ``: 您的okex开发平台上申请的passphrase
-6.  ``ok_coins ``: 配置项目支持的数字货币（例如：btc,ltc,eth,etc,btg,xrp,eos）
+#### 发布正式环境
+1. npm run build
 
 #### 开发环境
 
-1. eclipse-2018-12
-2. maven 3.5.4
-3. git
-4. jetty
-5. activeMQ 5.15.9
+1. vscode
+2. git
+3. nodejs 8.11.3
+4. npm 6.4.1
+5. vue cli3
 
 #### 技术栈
-1. springmvc 4.3.19
-2. activemq 5.15.4
-3. ehcache 2.10.6
-4. java-jwt 3.4.1
-5. shiro 1.4.0
+1. vue+vuex+router
+2. element ui
+3. echarts
 
 #### Donation
 If you find Element useful, you can buy us a cup of coffee

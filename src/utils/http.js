@@ -54,7 +54,6 @@ axios.interceptors.response.use(
     return Promise.resolve(responseBody)
   },
   error => {
-    debugger
     if (error.response && error.response.status === 401) {
       router.push({
         path: '/login',

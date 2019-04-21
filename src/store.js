@@ -1,25 +1,22 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-
+import Cookies from 'js-cookie'
 Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    isLogin: true,
-    xauthtoken: ""
+    xauthtoken: sessionStorage.getItem('xauthtoken') ? sessionStorage.getItem('xauthtoken') : Cookies.get('xauthtoken')
   },
   mutations: {
-    login(state) {
-      state.isLogin = true;
+    login(state, xauthtoken) {
+      state.xauthtoken = xauthtoken
+      sessionStorage.setItem('xauthtoken', xauthtoken)
+      Cookies.set('xauthtoken', state.xauthtoken)
     },
     logout(state) {
-      state.isLogin = false;
-      state.xauthtoken = "";
-      sessionStorage.removeItem("xauthtoken");
-    },
-    setAuthorization(state, xauthtoken) {
-      state.xauthtoken = xauthtoken;
-      sessionStorage.setItem("xauthtoken", xauthtoken);
+      state.xauthtoken = ''
+      sessionStorage.removeItem('xauthtoken')
+      Cookies.set('xauthtoken', state.xauthtoken)
     }
   },
   actions: {

@@ -1,47 +1,77 @@
-import { Message } from 'element-ui';
-import store from '@/store';
-import router from '@/router';
-import axios from 'axios';
+import { Message } from 'element-ui'
+import store from '@/store'
+import router from '@/router'
+import axios from 'axios'
 
-axios.defaults.timeout = 5000;
-axios.defaults.baseURL = process.env.VUE_APP_baseURL;
-//http request 拦截器
+axios.defaults.timeout = 5000
+axios.defaults.baseURL = process.env.VUE_APP_baseURL
+// http request 拦截器
 axios.interceptors.request.use(
   config => {
     if (store.state.xauthtoken) {
-      config.headers["xauthtoken"] = store.state.xauthtoken;
+      config.headers['xauthtoken'] = store.state.xauthtoken
     }
-    return config;
+    return config
   },
   error => {
-    return Promise.reject(error);
-  }
-);
-
-
-//http response 拦截器
-axios.interceptors.response.use(
-  response => {
-    if (response.headers.xauthtoken) {
-      store.commit("setAuthorization", response.headers.xauthtoken);
-    }
-    if (response.data.errorCode != 0) {
-      if (response.data.errorCode == 3) {
-        router.push({
-          path: "/login",
-          querry: { redirect: "/" }
-        });
-      } else {
-        Message(response.data.errorMessage);
-      }
-    }
-    return response;
-  },
-  error => {
+    Message({
+      message: error,
+      type: 'error',
+      duration: 5 * 1000,
+      showClose: true
+    })
     return Promise.reject(error)
   }
 )
 
+// http response 拦截器
+axios.interceptors.response.use(
+  response => {
+    const responseBody = response.data
+    if (response.headers.xauthtoken) {
+      store.commit('login', response.headers.xauthtoken)
+    } else {
+      if (responseBody.data && responseBody.data.token) {
+        store.commit('login', responseBody.data.token)
+      }
+    }
+    if (responseBody.errorCode !== 0) {
+      if (responseBody.errorCode === 3) {
+        router.push({
+          path: '/login',
+          querry: { redirect: '/' }
+        })
+      } else {
+        Message({
+          message: responseBody.message,
+          type: 'error',
+          duration: 5 * 1000,
+          showClose: true
+        })
+      }
+      return Promise.reject(responseBody)
+    }
+    return Promise.resolve(responseBody)
+  },
+  error => {
+    debugger
+    if (error.response && error.response.status === 401) {
+      router.push({
+        path: '/login',
+        querry: { redirect: '/' }
+      })
+    } else {
+      Message({
+        message: error.message,
+        type: 'error',
+        duration: 5 * 1000,
+        showClose: true
+      })
+    }
+
+    return Promise.reject(error)
+  }
+)
 
 /**
  * 封装get方法
@@ -56,14 +86,13 @@ export function fetch(url, params = {}) {
       params: params
     })
       .then(response => {
-        resolve(response.data);
+        resolve(response)
       })
       .catch(err => {
         reject(err)
       })
   })
 }
-
 
 /**
  * 封装post请求
@@ -76,7 +105,7 @@ export function post(url, data = {}) {
   return new Promise((resolve, reject) => {
     axios.post(url, data)
       .then(response => {
-        resolve(response.data);
+        resolve(response)
       }, err => {
         reject(err)
       })
@@ -94,7 +123,7 @@ export function patch(url, data = {}) {
   return new Promise((resolve, reject) => {
     axios.patch(url, data)
       .then(response => {
-        resolve(response.data);
+        resolve(response)
       }, err => {
         reject(err)
       })
@@ -112,7 +141,7 @@ export function put(url, data = {}) {
   return new Promise((resolve, reject) => {
     axios.put(url, data)
       .then(response => {
-        resolve(response.data);
+        resolve(response)
       }, err => {
         reject(err)
       })

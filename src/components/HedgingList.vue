@@ -10,18 +10,18 @@
     <el-table :data="hedgings" style="width: 100%">
       <el-table-column label="交易日期" width="180">
         <template slot-scope="scope">
-          <i class="el-icon-time"></i>
-          <span style="margin-left: 10px">{{ scope.row.time | dataFormat('yyyy-MM-dd hh:mm:ss')}}</span>
+          <i class="el-icon-time"/>
+          <span style="margin-left: 10px">{{ scope.row.time | dataFormat('yyyy-MM-dd hh:mm:ss') }}</span>
         </template>
       </el-table-column>
       <el-table-column label="策略" width="180">
         <template slot-scope="scope">
-          <span>{{ scope.row.title}}</span>
+          <span>{{ scope.row.title }}</span>
         </template>
       </el-table-column>
       <el-table-column label="盈亏率" width="180">
         <template slot-scope="scope">
-          <span>{{ scope.row.profitRate | numFormat(4)}}%</span>
+          <span>{{ scope.row.profitRate | numFormat(4) }}%</span>
         </template>
       </el-table-column>
       <el-table-column label="开仓买入" width="180">
@@ -46,7 +46,7 @@
       </el-table-column>
       <el-table-column label="状态" width="180">
         <template slot-scope="scope">
-          <span>{{ scope.row.status | formatStatus}}</span>
+          <span>{{ scope.row.status | formatStatus }}</span>
         </template>
       </el-table-column>
       <el-table-column label="操作">
@@ -63,7 +63,7 @@
             icon="el-icon-refresh"
             circle
             @click="handleRepair(scope.$index, scope.row)"
-          ></el-button>
+          />
         </template>
       </el-table-column>
     </el-table>
@@ -72,83 +72,86 @@
 
 <script>
 export default {
-  name: "HedgingList",
+  name: 'HedgingList',
+  filters: {
+    formatStatus: function(val) {
+      switch (val) {
+        case 0:
+          return '进行中'
+        case 2:
+          return '平仓中'
+      }
+      return '结束'
+    }
+  },
   props: {
     hedgings: {
-      type: Array
+      type: Array,
+      default: function() {
+        return []
+      }
     }
   },
   computed: {},
   methods: {
     buyDealAmount: function(index, row) {
       if (row.buyTrade && row.buyTrade.futureOrder) {
-        return row.buyTrade.futureOrder.filledQty;
+        return row.buyTrade.futureOrder.filledQty
       }
-      return "";
+      return ''
     },
     sellDealAmount: function(index, row) {
       if (row.sellTrade && row.sellTrade.futureOrder) {
-        return row.sellTrade.futureOrder.filledQty;
+        return row.sellTrade.futureOrder.filledQty
       }
-      return "";
+      return ''
     },
     reverseBuyDealAmount: function(index, row) {
       if (row.reverseHedgings) {
-        var dealamout = 0;
+        var dealamout = 0
         row.reverseHedgings.forEach((hedging, index) => {
           if (hedging.buyTrade && hedging.buyTrade.futureOrder) {
             dealamout =
-              dealamout + hedging.buyTrade.futureOrder.filledQty;
+              dealamout + hedging.buyTrade.futureOrder.filledQty
           }
-        });
-        return dealamout;
+        })
+        return dealamout
       }
-      return "";
+      return ''
     },
     reverseSellDealAmount: function(index, row) {
       if (row.reverseHedgings) {
-        var dealamout = 0;
+        var dealamout = 0
         row.reverseHedgings.forEach((hedging, index) => {
           if (hedging.sellTrade && hedging.sellTrade.futureOrder) {
             dealamout =
-              dealamout + hedging.sellTrade.futureOrder.filledQty;
+              dealamout + hedging.sellTrade.futureOrder.filledQty
           }
-        });
-        return dealamout;
+        })
+        return dealamout
       }
-      return "";
+      return ''
     },
     handleLiquid(index, row) {
-      this.$confirm("确定要平仓此交易?", "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning"
+      this.$confirm('确定要平仓此交易?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
       }).then(() => {
-        this.$emit("liquid", row.hedgingId);
-      });
+        this.$emit('liquid', row.hedgingId)
+      })
     },
     handleRepair(index, row) {
-      this.$emit("repair", row.hedgingId);
+      this.$emit('repair', row.hedgingId)
     },
     onRefresh() {
-      this.$emit("refresh");
+      this.$emit('refresh')
     },
     onLiquidAll() {
-      this.$emit("liquidAll");
-    }
-  },
-  filters: {
-    formatStatus: function(val) {
-      switch (val) {
-        case 0:
-          return "进行中";
-        case 2:
-          return "平仓中";
-      }
-      return "结束";
+      this.$emit('liquidAll')
     }
   }
-};
+}
 </script>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>

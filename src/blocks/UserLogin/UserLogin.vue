@@ -1,9 +1,9 @@
 <template>
   <div class="user-login">
-    <div class="user-login-bg" :style="{'background-image':`url(${backgroundImage})`}"></div>
+    <div :style="{'background-image':`url(${backgroundImage})`}" class="user-login-bg"/>
     <div class="content-wrapper">
       <h2 class="slogan">欢迎使用
-        <br>ICE 内容管理系统
+        <br>OkexQuant 期货合约价差套利系统
       </h2>
       <div class="form-container">
         <h4 class="form-title">登录</h4>
@@ -12,22 +12,22 @@
             <el-row class="form-item">
               <el-col>
                 <el-form-item
-                  prop="username"
                   :rules="[ { required: true, message: '会员名/邮箱/手机号不能为空'}]"
+                  prop="username"
                 >
                   <div class="form-line">
-                    <i class="el-icon-ali-zhanghao input-icon"></i>
-                    <el-input placeholder="会员名/邮箱/手机号" v-model="user.username"></el-input>
+                    <i class="el-icon-ali-zhanghao input-icon"/>
+                    <el-input v-model="user.username" placeholder="会员名/邮箱/手机号"/>
                   </div>
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row class="form-item">
               <el-col>
-                <el-form-item prop="password" :rules="[ { required: true, message: '密码不能为空'}]">
+                <el-form-item :rules="[ { required: true, message: '密码不能为空'}]" prop="password">
                   <div class="form-line">
-                    <i class="el-icon-ali-mima input-icon"></i>
-                    <el-input type="password" placeholder="密码" v-model="user.password"></el-input>
+                    <i class="el-icon-ali-mima input-icon"/>
+                    <el-input v-model="user.password" type="password" placeholder="密码"/>
                   </div>
                 </el-form-item>
               </el-col>
@@ -44,9 +44,9 @@
             </el-row>
           </div>
           <el-row class="tips">
-            <a href="/" class="link">立即注册</a>
+            <a href="#" class="link">立即注册</a>
             <span class="line">|</span>
-            <a href="/" class="link">忘记密码</a>
+            <a href="#" class="link">忘记密码</a>
           </el-row>
         </el-form>
       </div>
@@ -55,38 +55,37 @@
 </template>
 
 <script>
-import BasicContainer from "@vue-materials/basic-container";
+import BasicContainer from '@vue-materials/basic-container'
 const backgroundImage =
-  "https://img.alicdn.com/tfs/TB1zsNhXTtYBeNjy1XdXXXXyVXa-2252-1500.png";
+  'https://img.alicdn.com/tfs/TB1zsNhXTtYBeNjy1XdXXXXyVXa-2252-1500.png'
 export default {
+  name: 'UserLogin',
   components: { BasicContainer },
-  name: "UserLogin",
 
   data() {
     return {
       backgroundImage: backgroundImage,
       user: {
-        username: "",
-        password: ""
+        username: '',
+        password: ''
       }
-    };
+    }
   },
 
   created() {},
 
   methods: {
     submitBtn() {
-      this.$refs["form"].validate(valid => {
+      this.$refs['form'].validate(valid => {
         if (valid) {
-          this.$message({
-            message: "登录成功",
-            type: "success"
-          });
+          this.$fetch('/user/login', { userName: this.user.username, password: this.user.password }).then(response => {
+            this.$router.push({ path: '/' })
+          })
         }
-      });
+      })
     }
   }
-};
+}
 </script>
 
 <style lang="scss">

@@ -3,10 +3,10 @@
     <basic-container>
       <div class="footer-row">
         <a class="footer-brand" href="">
-          <img class="footer-logo" :src="logo" alt="logo">
+          <img :src="logo" class="footer-logo" alt="logo">
         </a>
         <ul class="footer-list">
-          <li class="footer-list-item" v-for="(item,index) in navList" :key="index">
+          <li v-for="(item,index) in navList" :key="index" class="footer-list-item">
             <a :href="item.link">{{ item.title }}</a>
           </li>
         </ul>
@@ -16,11 +16,11 @@
 </template>
 
 <script>
-import BasicContainer from '@vue-materials/basic-container';
+import BasicContainer from '@vue-materials/basic-container'
 
 export default {
-  components: { BasicContainer },
   name: 'SimpleFooter',
+  components: { BasicContainer },
 
   data() {
     return {
@@ -31,15 +31,15 @@ export default {
         { title: 'Blog', link: '#' },
         { title: 'Service', link: '#' },
         { title: 'About', link: '#' },
-        { title: 'Contact', link: '#' },
-      ],
-    };
+        { title: 'Contact', link: '#' }
+      ]
+    }
   },
 
   created() {},
 
-  methods: {},
-};
+  methods: {}
+}
 </script>
 
 <style lang="scss" scoped>

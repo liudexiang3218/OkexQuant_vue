@@ -12,32 +12,20 @@
         <router-view/>
       </el-main>
     </el-container>
-    <el-dialog :fullscreen="true" :visible.sync="loginDialogVisible" :close-on-click-modal="false" :close-on-press-escape="false" :show-close="false">
-      <login></login>
-    </el-dialog>
   </div>
 </template>
 <script>
-import Login from "./views/Login.vue";
 export default {
   data() {
     return {
       navList: [
-        { name: "/", navItem: "首页" },
-        { name: "/about", navItem: "关于我们" },
-        { name: "/login", navItem: "账号管理" }
+        { name: '/', navItem: '首页' },
+        { name: '/about', navItem: '关于我们' },
+        { name: '/login', navItem: '退出' }
       ]
-    };
-  },
-  computed: {
-    loginDialogVisible: function() {
-      return !this.$store.state.isLogin;
     }
-  },
-  components: {
-    Login
   }
-};
+}
 </script>
 
 <style>
